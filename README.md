@@ -19,7 +19,7 @@ git clone https://github.com/loks2cool/NFTMarketPlace.git
 ```
 #### Install dependencies
 ```
-cd cryptocars-NFT-marketplace
+cd NFTMarketPlace
 npm install
 ```
 #### Compile smart contract
