@@ -15,7 +15,7 @@ ganache-cli --port 7545
 ```
 #### Open new terminal window and clone this repository
 ```
-git clone https://github.com/devpavan04/cryptocars-NFT-marketplace.git
+git clone https://github.com/loks2cool/NFTMarketPlace.git
 ```
 #### Install dependencies
 ```
