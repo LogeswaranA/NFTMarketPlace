@@ -14,6 +14,9 @@ contract CryptoCars is ERC721 {
     // total number of crypto cars minted
     uint256 public cryptoCarCounter;
 
+
+    Royalties private _royalty;
+
     // define crypto car struct
     struct CryptoCar {
         uint256 tokenId;
@@ -42,18 +45,31 @@ contract CryptoCars is ERC721 {
         collectionNameSymbol = symbol();
     }
 
+    // Set royalty contract
+    function setRoyaltyContract(address who) external {
+        _royalty = Royalties(who);
+    }
+
     // mint a new crypto car
     function mintCryptoCar(
         string memory _name,
         string memory _tokenURI,
         uint256 _price,
-        string[] calldata _colors
+        string[] calldata _colors,
+        address[] memory royaltyRecipients, 
+        uint256[] memory royaltyValues
     ) external {
         // check if thic fucntion caller is not an zero address account
         require(
             msg.sender != address(0),
             "Caller must not be the zero address account"
         );
+
+        require(
+            royaltyRecipients.length == royaltyValues.length,
+            'ERC721: Arrays length mismatch'
+        );
+
         // increment counter
         cryptoCarCounter++;
         // check if a token exists with the above token id => incremented counter
@@ -71,6 +87,9 @@ contract CryptoCars is ERC721 {
 
         // mint the token
         _mint(msg.sender, cryptoCarCounter);
+
+        _royalty.setTokenRoyalty(cryptoCarCounter, royaltyRecipients, royaltyValues);
+                
         // set token URI (bind token id with the passed in token URI)
         _setTokenURI(cryptoCarCounter, _tokenURI);
 
@@ -209,4 +228,7 @@ contract CryptoCars is ERC721 {
         // set and update that token in the mapping
         allCryptoCars[_tokenId] = cryptocar;
     }
+
+
+
 }
